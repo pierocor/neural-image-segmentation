@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from .unet import UNet
 
 chk_path = "unet/saved_model_0.98.ckpt"  # saved best model
+chk_path = "data/ckpt/epoch_48-val_acc_0.98.ckpt"  # replace with another ckpt
 unet_model = UNet.load_from_checkpoint(chk_path)
 
 
@@ -125,7 +126,11 @@ def get_weight_matrix(size):
 if __name__ == '__main__':
     img_path = '902-complete.tif'
     mask_path = '902-complete-mask.png'
+    # Replace
+    img_path = "data/Data_larged_images/images/Snap-1000.tif"
+    mask_path ="data/Data_larged_images/Labels/Snap-1000_all_objects.png"
 
+    print("Loading image and mask....")
     mask = cv2.imread(mask_path)
     mask = np.array(mask)
     # mask = torch.from_numpy(mask).long()
@@ -141,7 +146,7 @@ if __name__ == '__main__':
     mask[:,:,:3][neurite] = [119, 11, 3320]
 
     mask = torch.from_numpy(mask).long()
-    print(mask)
+    print(mask.shape)
 
     print("Resampling image....")
     resampled_image = image_resample_row(img_path, size=(4, 5), sample_size=512)
